@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 known_chains = {
     "META": {
-        "chain_id": "4018d7844c78f6a6c41c6a552b898022310fc5dec06da467ee7905a8dad512c8",
+        "chain_id": "189aa227d3f2229a18eeb9cf71fab4f515f55b7f89d7c9a6c7e7eb8dee01b170",
         "core_symbol": "META",
         "prefix": "META",
     },
