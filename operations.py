@@ -53,7 +53,7 @@ from .objects import (
 from .operationids import operations
 
 
-default_prefix = "META"
+default_prefix = "BTS"
 class_idmap = {}
 class_namemap = {}
 
@@ -464,6 +464,47 @@ class Asset_fund_fee_pool(GrapheneObject):
             )
 
 
+class Asset_claim_fees(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            super().__init__(
+                OrderedDict(
+                    [
+                        ("fee", Asset(kwargs["fee"])),
+                        ("issuer", ObjectId(kwargs["issuer"], "account")),
+                        ("amount_to_claim", Asset(kwargs["amount_to_claim"])),
+                        ("extensions", Set([])),
+                    ]
+                )
+            )
+
+
+class Asset_claim_pool(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            super().__init__(
+                OrderedDict(
+                    [
+                        ("fee", Asset(kwargs["fee"])),
+                        ("issuer", ObjectId(kwargs["issuer"], "account")),
+                        ("asset_id", ObjectId(kwargs["asset_id"], "asset")),
+                        ("amount_to_claim", Asset(kwargs["amount_to_claim"])),
+                        ("extensions", Set([])),
+                    ]
+                )
+            )
+
+
 class Override_transfer(GrapheneObject):
     def __init__(self, *args, **kwargs):
         if isArgsThisClass(self, args):
@@ -783,6 +824,30 @@ class Withdraw_permission_create(GrapheneObject):
             )
 
 
+class Asset_global_settle(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+
+            super().__init__(
+                OrderedDict(
+                    [
+                        ("fee", Asset(kwargs["fee"])),
+                        ("issuer", ObjectId(kwargs["issuer"], "account")),
+                        (
+                            "asset_to_settle",
+                            ObjectId(kwargs["asset_to_settle"], "asset"),
+                        ),
+                        ("settle_price", Price(kwargs["settle_price"])),
+                        ("extensions", Set([])),
+                    ]
+                )
+            )
+
+
 class Committee_member_create(GrapheneObject):
     def __init__(self, *args, **kwargs):
         if isArgsThisClass(self, args):
@@ -846,6 +911,21 @@ class Bid_collateral(GrapheneObject):
         )
 
 
+class Balance_claim(GrapheneObject):
+    def detail(self, *args, **kwargs):
+        # New pygraphene interface!
+        prefix = kwargs.pop("prefix", default_prefix)
+        return OrderedDict(
+            [
+                ("fee", Asset(kwargs["fee"])),
+                ("deposit_to_account", ObjectId(kwargs["deposit_to_account"], "account")),
+                ("balance_to_claim", ObjectId(kwargs["balance_to_claim"], "balance")),
+                ("balance_owner_key", PublicKey(kwargs["balance_owner_key"], prefix=prefix)),
+                ("total_claimed", Asset(kwargs["total_claimed"])),
+            ]
+        )
+
+
 class Asset_settle(GrapheneObject):
     def detail(self, *args, **kwargs):
         # New pygraphene interface!
@@ -893,10 +973,7 @@ class Htlc_redeem(GrapheneObject):
                 ("fee", Asset(kwargs["fee"])),
                 ("htlc_id", ObjectId(kwargs["htlc_id"], "htlc")),
                 ("redeemer", ObjectId(kwargs["redeemer"], "account")),
-                (
-                    "preimage",  # Bytes(kwargs["preimage"])
-                    Array([Uint8(o) for o in unhexlify(kwargs["preimage"])]),
-                ),
+                ("preimage", Bytes(kwargs["preimage"])),
                 ("extensions", Set([])),
             ]
         )

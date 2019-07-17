@@ -11,7 +11,7 @@ from graphenebase.account import PrivateKey as GPHPrivateKey
 from graphenebase.account import PublicKey as GPHPublicKey
 from graphenebase.account import Prefix
 
-default_prefix = "META"
+default_prefix = "BTS"
 
 
 class PasswordKey(GPHPasswordKey):
@@ -53,11 +53,11 @@ class Address(GPHAddress):
 
         :param str address: Base58 encoded address (defaults to ``None``)
         :param str pubkey: Base58 encoded pubkey (defaults to ``None``)
-        :param str prefix: Network prefix (defaults to ``META``)
+        :param str prefix: Network prefix (defaults to ``BTS``)
 
         Example::
 
-           Address("METAFN9r6VYzBK8EKtMewfNbfiGCr56pHDBFi")
+           Address("BTSFN9r6VYzBK8EKtMewfNbfiGCr56pHDBFi")
 
     """
 
@@ -68,11 +68,11 @@ class PublicKey(GPHPublicKey):
     """ This class deals with Public Keys and inherits ``Address``.
 
         :param str pk: Base58 encoded public key
-        :param str prefix: Network prefix (defaults to ``META``)
+        :param str prefix: Network prefix (defaults to ``BTS``)
 
         Example:::
 
-           PublicKey("META6UtYWWs3rkZGV8JA86qrgkG6tyFksgECefKE1MiH4HkLD8PFGL")
+           PublicKey("BTS6UtYWWs3rkZGV8JA86qrgkG6tyFksgECefKE1MiH4HkLD8PFGL")
 
         .. note:: By default, graphene-based networks deal with **compressed**
                   public keys. If an **uncompressed** key is required, the
@@ -90,7 +90,7 @@ class PrivateKey(GPHPrivateKey):
         constructs two instances of ``PublicKey``:
 
         :param str wif: Base58check-encoded wif key
-        :param str prefix: Network prefix (defaults to ``META``)
+        :param str prefix: Network prefix (defaults to ``BTS``)
 
         Example:::
 

@@ -18,5 +18,5 @@ class Signed_Transaction(GrapheneSigned_Transaction):
     """
 
     known_chains = known_chains
-    default_prefix = "META"
+    default_prefix = "BTS"
     operation_klass = Operation
